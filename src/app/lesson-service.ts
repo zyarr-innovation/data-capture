@@ -1,19 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-
-export interface ILesson {
-  id: number;
-  name: string;
-  originalText: string;
-  detailedExplanation: string;
-  fillInTheBlanks: string;
-  matchTheColumns: string;
-  trueAndFalse: string;
-  quiz: string;
-  shortAnswers: string;
-  longAnswer: string;
-}
+import { ILesson } from './lesson-model';
 
 @Injectable({
   providedIn: 'root',

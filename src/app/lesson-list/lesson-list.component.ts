@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { ILesson, LessonService } from '../lesson-service';
+import { LessonService } from '../lesson-service';
+import { ILesson } from '../lesson-model';
 
 @Component({
   selector: 'app-lesson-list',

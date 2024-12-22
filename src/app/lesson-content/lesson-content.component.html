@@ -1,10 +1,20 @@
 <!-- lessonContent-content.component.html -->
 <div *ngIf="lessonContent" class="lessonContent-content">
-  <h2>{{ lessonContent.name }}</h2>
-  <mat-tab-group>
+  <h2>
+    {{ lessonContent.name }}
+    <button mat-mini-fab (click)="onConvert(tabGroup.selectedIndex)">
+      <mat-icon>directions</mat-icon>
+    </button>
+  </h2>
+  <mat-tab-group #tabGroup>
     <mat-tab label="Original Text">
       <textarea
         [(ngModel)]="lessonContent.originalText"
+        class="content-textarea"
+      ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [(ngModel)]="lessonJsonContent!.originalText"
         class="content-textarea"
       ></textarea>
     </mat-tab>
@@ -13,10 +23,21 @@
         [(ngModel)]="lessonContent.detailedExplanation"
         class="content-textarea"
       ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [(ngModel)]="lessonJsonContent!.detailedExplanation"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Fill in the Blanks">
       <textarea
         [(ngModel)]="lessonContent.fillInTheBlanks"
+        class="content-textarea"
+      ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.fillInTheBlanks | json"
+        readonly
         class="content-textarea"
       ></textarea>
     </mat-tab>
@@ -25,10 +46,22 @@
         [(ngModel)]="lessonContent.matchTheColumns"
         class="content-textarea"
       ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.matchTheColumns | json"
+        readonly
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="True and False">
       <textarea
         [(ngModel)]="lessonContent.trueAndFalse"
+        class="content-textarea"
+      ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.trueAndFalse | json"
+        readonly
         class="content-textarea"
       ></textarea>
     </mat-tab>
@@ -37,16 +70,34 @@
         [(ngModel)]="lessonContent.quiz"
         class="content-textarea"
       ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.quiz | json"
+        readonly
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Short Answers">
       <textarea
         [(ngModel)]="lessonContent.shortAnswers"
         class="content-textarea"
       ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.shortAnswers | json"
+        readonly
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Long Answer">
       <textarea
         [(ngModel)]="lessonContent.longAnswer"
+        class="content-textarea"
+      ></textarea>
+      <textarea
+        *ngIf="lessonJsonContent"
+        [ngModel]="lessonJsonContent!.longAnswer | json"
+        readonly
         class="content-textarea"
       ></textarea>
     </mat-tab>

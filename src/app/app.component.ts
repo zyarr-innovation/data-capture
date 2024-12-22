@@ -5,7 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { LessonListComponent } from './lesson-list/lesson-list.component';
 import { LessonContentComponent } from './lesson-content/lesson-content.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { ILesson, LessonService } from './lesson-service';
+import { LessonService } from './lesson-service';
+import { ILesson } from './lesson-model';
 
 @Component({
   selector: 'app-root',
