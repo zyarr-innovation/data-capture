@@ -3,28 +3,52 @@
   <h2>{{ lessonContent.name }}</h2>
   <mat-tab-group>
     <mat-tab label="Original Text">
-      <textarea [(ngModel)]="lessonContent.originalText" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.originalText"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Detailed Explanation">
-      <textarea [(ngModel)]="lessonContent.detailedExplanation" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.detailedExplanation"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Fill in the Blanks">
-      <textarea [(ngModel)]="lessonContent.fillInTheBlanks" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.fillInTheBlanks"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Match the Columns">
-      <textarea [(ngModel)]="lessonContent.matchTheColumns" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.matchTheColumns"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="True and False">
-      <textarea [(ngModel)]="lessonContent.trueAndFalse" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.trueAndFalse"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Quiz">
-      <textarea [(ngModel)]="lessonContent.quiz" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.quiz"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Short Answers">
-      <textarea [(ngModel)]="lessonContent.shortAnswers" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.shortAnswers"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
     <mat-tab label="Long Answer">
-      <textarea [(ngModel)]="lessonContent.longAnswer" rows="6"></textarea>
+      <textarea
+        [(ngModel)]="lessonContent.longAnswer"
+        class="content-textarea"
+      ></textarea>
     </mat-tab>
   </mat-tab-group>
 </div>

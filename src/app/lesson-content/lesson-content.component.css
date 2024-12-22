@@ -1,0 +1,22 @@
+/* lessonContent-content.component.css */
+.lessonContent-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 80vh;
+}
+
+mat-tab-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-textarea {
+  width: 100%;
+  height: 80vh;
+  resize: none;
+  overflow: auto;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}

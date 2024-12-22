@@ -10,19 +10,22 @@
     <button mat-menu-item (click)="saveAsLessons()">Save As...</button>
     <button mat-menu-item (click)="addLesson()">Add</button>
     <button mat-menu-item (click)="deleteLesson()">Delete</button>
+    <button mat-menu-item (click)="toggleSidenav(sidenav)">
+      {{ sidenav.opened ? "close" : "open" }}
+    </button>
   </mat-menu>
 </mat-toolbar>
 
 <div class="main-container">
   <mat-sidenav-container>
-    <mat-sidenav mode="side" opened>
+    <mat-sidenav class="class-lesson-list" mode="side" #sidenav opened>
       <app-lesson-list
         [lessons]="lessons"
         [selectedLesson]="selectedLesson"
         (lessonSelected)="selectLesson($event)"
       ></app-lesson-list>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="class-lesson-content">
       <app-lesson-content [lessonName]="selectedLesson"></app-lesson-content>
     </mat-sidenav-content>
   </mat-sidenav-container>

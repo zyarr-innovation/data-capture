@@ -1,6 +1,7 @@
 /* Updated app.component.css */
 .main-container {
   display: flex;
+  width: 100%;
   height: 100vh;
 }
 
@@ -16,10 +17,11 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
+  width: 100%;
   margin-top: 64px;
   height: calc(100% - 64px);
 }
 
-mat-sidenav {
+.class-lesson-list {
   width: 250px;
 }
