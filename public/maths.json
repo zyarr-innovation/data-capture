@@ -1,0 +1,88 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "name": "lessson1",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 2,
+      "name": "lessson2",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 3,
+      "name": "lessson3",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 4,
+      "name": "lessson4",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 5,
+      "name": "lessson5",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 6,
+      "name": "lessson6",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    },
+    {
+      "id": 7,
+      "name": "lessson7",
+      "originalText": "Original text for lesson ",
+      "detailedExplanation": "Detailed explanation here...",
+      "fillInTheBlanks": "___ is the correct answer.",
+      "matchTheColumns": "Match item A with item B.",
+      "trueAndFalse": "True or False?",
+      "quiz": "What is the capital of France?",
+      "shortAnswers": "What is your name?",
+      "longAnswer": "Explain the significance of the lesson."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<mat-list class="lesson-list">
+  <h2 mat-subheader>Lessons</h2>
+  <mat-list-item
+    *ngFor="let lesson of lessons"
+    (click)="selectLesson(lesson)"
+    [class.selected]="isSelected(lesson)"
+  >
+    <span mat-line>{{ lesson.name }}</span>
+  </mat-list-item>
+</mat-list>

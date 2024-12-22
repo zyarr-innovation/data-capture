@@ -1,0 +1,20 @@
+/* Change cursor to hand when hovering over list items */
+mat-list-item {
+  cursor: pointer;
+}
+
+/* Add hover effect (light background change on hover) */
+mat-list-item:hover {
+  background-color: #e0e0e0; /* Adjust color as per design */
+}
+
+/* Add visual indication of current selection */
+mat-list-item.selected {
+  background-color: #1976d2; /* Use your desired color for selected state */
+  color: white; /* Change text color to white for contrast */
+}
+
+/* Optional: Make selected item more prominent */
+mat-list-item.selected:hover {
+  background-color: #1565c0; /* Darker shade of the selected color for hover */
+}
