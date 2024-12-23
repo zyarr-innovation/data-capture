@@ -1,6 +1,13 @@
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,9 +29,54 @@ import { LessonUtilityService } from '../lesson-utility.service';
   styleUrl: './lesson-content.component.css',
 })
 export class LessonContentComponent {
-  @Input() lessonName: ILesson | null = null;
+  @Input()
+  lessonName: ILesson | null = null;
+
+  @Output()
+  scrollPercentageChange = new EventEmitter<number>();
+
   lessonContent: ILesson | null = null;
   lessonJsonContent: ILessonJson | null = null;
+
+  @ViewChild('leftoriginalText')
+  leftoriginalText!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightoriginalText')
+  rightoriginalText!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftdetailedExplanation')
+  leftdetailedExplanation!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightdetailedExplanation')
+  rightdetailedExplanation!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftfillInTheBlanks')
+  leftfillInTheBlanks!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightfillInTheBlanks')
+  rightfillInTheBlanks!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftmatchTheColumns')
+  leftmatchTheColumns!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightmatchTheColumns')
+  rightmatchTheColumns!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('lefttrueAndFalse')
+  lefttrueAndFalse!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('righttrueAndFalse')
+  righttrueAndFalse!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftquiz')
+  leftquiz!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightquiz')
+  rightquiz!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftshortAnswers')
+  leftshortAnswers!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightshortAnswers')
+  rightshortAnswers!: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('leftlongAnswer')
+  leftlongAnswer!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('rightlongAnswer')
+  rightlongAnswer!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
     private lessonService: LessonService,
@@ -129,5 +181,49 @@ export class LessonContentComponent {
         }
         break;
     }
+  }
+
+  onScrollLeft(elementName: string): void {
+    let sourceElement = this.leftoriginalText.nativeElement;
+    let targetElement = this.rightoriginalText.nativeElement;
+    switch (elementName) {
+      case 'detailedExplanation':
+        sourceElement = this.leftdetailedExplanation.nativeElement;
+        targetElement = this.rightdetailedExplanation.nativeElement;
+        break;
+      case 'fillInTheBlanks':
+        sourceElement = this.leftfillInTheBlanks.nativeElement;
+        targetElement = this.rightfillInTheBlanks.nativeElement;
+        break;
+      case 'matchTheColumns':
+        sourceElement = this.leftmatchTheColumns.nativeElement;
+        targetElement = this.rightmatchTheColumns.nativeElement;
+        break;
+      case 'trueAndFalse':
+        sourceElement = this.lefttrueAndFalse.nativeElement;
+        targetElement = this.righttrueAndFalse.nativeElement;
+        break;
+      case 'quiz':
+        sourceElement = this.leftquiz.nativeElement;
+        targetElement = this.rightquiz.nativeElement;
+        break;
+      case 'shortAnswers':
+        sourceElement = this.leftshortAnswers.nativeElement;
+        targetElement = this.rightshortAnswers.nativeElement;
+        break;
+      case 'longAnswer':
+        sourceElement = this.leftoriginalText.nativeElement;
+        targetElement = this.rightoriginalText.nativeElement;
+        break;
+    }
+    const scrollPercentage =
+      (sourceElement.scrollTop /
+        (sourceElement.scrollHeight - sourceElement.clientHeight)) *
+      100;
+
+    targetElement.scrollTop =
+      ((targetElement.scrollHeight - targetElement.clientHeight) *
+        scrollPercentage) /
+      100;
   }
 }

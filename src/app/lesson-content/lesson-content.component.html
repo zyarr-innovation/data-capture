@@ -9,10 +9,13 @@
   <mat-tab-group #tabGroup>
     <mat-tab label="Original Text">
       <textarea
+        #leftoriginalText
         [(ngModel)]="lessonContent.originalText"
         class="content-textarea"
+        (scroll)="onScrollLeft('originalText')"
       ></textarea>
       <textarea
+        #rightoriginalText
         *ngIf="lessonJsonContent"
         [(ngModel)]="lessonJsonContent!.originalText"
         class="content-textarea"
@@ -20,10 +23,13 @@
     </mat-tab>
     <mat-tab label="Detailed Explanation">
       <textarea
+        id="leftdetailedExplanation"
         [(ngModel)]="lessonContent.detailedExplanation"
         class="content-textarea"
+        (scroll)="onScrollLeft('detailedExplanation')"
       ></textarea>
       <textarea
+        #rightdetailedExplanation
         *ngIf="lessonJsonContent"
         [(ngModel)]="lessonJsonContent!.detailedExplanation"
         class="content-textarea"
@@ -31,10 +37,13 @@
     </mat-tab>
     <mat-tab label="Fill in the Blanks">
       <textarea
+        #leftfillInTheBlanks
         [(ngModel)]="lessonContent.fillInTheBlanks"
         class="content-textarea"
+        (scroll)="onScrollLeft('fillInTheBlanks')"
       ></textarea>
       <textarea
+        #rightfillInTheBlanks
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.fillInTheBlanks | json"
         readonly
@@ -43,10 +52,13 @@
     </mat-tab>
     <mat-tab label="Match the Columns">
       <textarea
+        #leftmatchTheColumns
         [(ngModel)]="lessonContent.matchTheColumns"
         class="content-textarea"
+        (scroll)="onScrollLeft('matchTheColumns')"
       ></textarea>
       <textarea
+        #rightmatchTheColumns
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.matchTheColumns | json"
         readonly
@@ -55,10 +67,13 @@
     </mat-tab>
     <mat-tab label="True and False">
       <textarea
+        #lefttrueAndFalse
         [(ngModel)]="lessonContent.trueAndFalse"
         class="content-textarea"
+        (scroll)="onScrollLeft('trueAndFalse')"
       ></textarea>
       <textarea
+        #righttrueAndFalse
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.trueAndFalse | json"
         readonly
@@ -67,10 +82,13 @@
     </mat-tab>
     <mat-tab label="Quiz">
       <textarea
+        #leftquiz
         [(ngModel)]="lessonContent.quiz"
         class="content-textarea"
+        (scroll)="onScrollLeft('quiz')"
       ></textarea>
       <textarea
+        #rightquiz
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.quiz | json"
         readonly
@@ -79,10 +97,13 @@
     </mat-tab>
     <mat-tab label="Short Answers">
       <textarea
+        #leftshortAnswers
         [(ngModel)]="lessonContent.shortAnswers"
         class="content-textarea"
+        (scroll)="onScrollLeft('shortAnswers')"
       ></textarea>
       <textarea
+        #rightshortAnswers
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.shortAnswers | json"
         readonly
@@ -91,10 +112,13 @@
     </mat-tab>
     <mat-tab label="Long Answer">
       <textarea
+        #leftlongAnswer
         [(ngModel)]="lessonContent.longAnswer"
         class="content-textarea"
+        (scroll)="onScrollLeft('longAnswer')"
       ></textarea>
       <textarea
+        #rightlongAnswer
         *ngIf="lessonJsonContent"
         [ngModel]="lessonJsonContent!.longAnswer | json"
         readonly
