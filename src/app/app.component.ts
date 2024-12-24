@@ -6,7 +6,7 @@ import { LessonListComponent } from './lesson-list/lesson-list.component';
 import { LessonContentComponent } from './lesson-content/lesson-content.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { LessonService } from './lesson-service';
-import { ILesson } from './lesson-model';
+import { ILessonJson } from './lesson-model';
 
 @Component({
   selector: 'app-root',
@@ -23,8 +23,8 @@ import { ILesson } from './lesson-model';
 })
 export class AppComponent {
   title = 'data-capture';
-  lessons: ILesson[] = [];
-  selectedLesson: ILesson | null = null;
+  lessons: ILessonJson[] = [];
+  selectedLesson: ILessonJson | null = null;
   selectedFilePath: string = '';
 
   constructor(private lessonService: LessonService) {}
@@ -83,7 +83,7 @@ export class AppComponent {
       this.selectedFilePath = fileHandle.name;
       const writable = await fileHandle.createWritable();
       const lessonsData = this.lessonService.getAllLessons();
-      await writable.write(JSON.stringify(lessonsData, null, 2));
+      await writable.write(JSON.stringify({ lessons: lessonsData }, null, 2));
       await writable.close();
 
       console.log('New lessons file created successfully!');
@@ -114,7 +114,7 @@ export class AppComponent {
     }
   }
 
-  selectLesson(inputLesson: ILesson) {
+  selectLesson(inputLesson: ILessonJson) {
     this.selectedLesson = inputLesson;
   }
 

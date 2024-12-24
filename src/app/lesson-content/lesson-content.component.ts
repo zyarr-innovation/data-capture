@@ -30,14 +30,14 @@ import { LessonUtilityService } from '../lesson-utility.service';
 })
 export class LessonContentComponent {
   @Input()
-  lessonName: ILesson | null = null;
+  selectedLesson: ILessonJson | null = null;
 
   @Output()
   scrollPercentageChange = new EventEmitter<number>();
 
   lessonContent: ILesson | null = null;
   lessonJsonContent: ILessonJson | null = null;
-
+  
   @ViewChild('leftoriginalText')
   leftoriginalText!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('rightoriginalText')
@@ -81,27 +81,28 @@ export class LessonContentComponent {
   constructor(
     private lessonService: LessonService,
     private lessonUtility: LessonUtilityService
-  ) {}
+  ) {
+    this.lessonContent = this.lessonUtility.getEmptyLesson()
+  }
 
   ngOnInit(): void {
-    if (this.lessonName) {
-      // Do something when the component initializes with a lesson
-      console.log('Lesson onInit:', this.lessonName);
+    if (this.selectedLesson) {
+      this.lessonJsonContent = this.selectedLesson;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['lessonName']) {
-      const currentLesson = changes['lessonName'].currentValue;
+    if (changes['selectedLesson']) {
+      const currentLesson = changes['selectedLesson'].currentValue;
       if (currentLesson) {
         // Handle any logic when the lesson changes
-        this.lessonContent = this.lessonService.getLessonById(
-          this.lessonName!.id
+        this.lessonJsonContent = this.lessonService.getLessonById(
+          this.selectedLesson!.id
         );
         console.log('Lesson changed:', currentLesson);
       } else {
         // Handle case where lesson is null
-        this.lessonContent = null;
+        this.lessonJsonContent = null;
         console.log('Lesson is null or removed');
       }
     }
@@ -212,8 +213,8 @@ export class LessonContentComponent {
         targetElement = this.rightshortAnswers.nativeElement;
         break;
       case 'longAnswer':
-        sourceElement = this.leftoriginalText.nativeElement;
-        targetElement = this.rightoriginalText.nativeElement;
+        sourceElement = this.leftlongAnswer.nativeElement;
+        targetElement = this.rightlongAnswer.nativeElement;
         break;
     }
     const scrollPercentage =

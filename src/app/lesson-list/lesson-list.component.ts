@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { LessonService } from '../lesson-service';
-import { ILesson } from '../lesson-model';
+import { ILessonJson } from '../lesson-model';
 
 @Component({
   selector: 'app-lesson-list',
@@ -11,15 +10,15 @@ import { ILesson } from '../lesson-model';
   styleUrl: './lesson-list.component.css',
 })
 export class LessonListComponent {
-  @Input() lessons: ILesson[] = [];
-  @Input() selectedLesson: ILesson | null = null;
-  @Output() lessonSelected = new EventEmitter<ILesson>();
+  @Input() lessons: ILessonJson[] = [];
+  @Input() selectedLesson: ILessonJson | null = null;
+  @Output() lessonSelected = new EventEmitter<ILessonJson>();
 
-  selectLesson(lesson: ILesson) {
+  selectLesson(lesson: ILessonJson) {
     this.lessonSelected.emit(lesson);
   }
 
-  isSelected(currentLesson: ILesson): boolean {
+  isSelected(currentLesson: ILessonJson): boolean {
     return this.selectedLesson?.id === currentLesson.id;
   }
 }

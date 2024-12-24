@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILessonJson } from './lesson-model';
+import { ILesson, ILessonJson } from './lesson-model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,6 +7,23 @@ import { ILessonJson } from './lesson-model';
 export class LessonUtilityService {
   constructor() {}
 
+  getEmptyLesson(): ILesson {
+     const newLesson: ILesson = {
+          id: 0,
+          name: "",
+          originalText: '',
+          detailedExplanation: '',
+          fillInTheBlanks: '',
+          matchTheColumns: '',
+          trueAndFalse: '',
+          quiz: '',
+          shortAnswers: '',
+          longAnswer: '',
+        };
+
+        return newLesson;
+  }
+  
   getEmptyLessonJson(): ILessonJson {
     return {
       id: 0,

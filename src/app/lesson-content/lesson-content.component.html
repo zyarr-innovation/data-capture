@@ -1,7 +1,7 @@
 <!-- lessonContent-content.component.html -->
-<div *ngIf="lessonContent" class="lessonContent-content">
+<div *ngIf="lessonJsonContent" class="lessonContent-content">
   <h2>
-    {{ lessonContent.name }}
+    {{ lessonJsonContent.name }}
     <button mat-mini-fab (click)="onConvert(tabGroup.selectedIndex)">
       <mat-icon>directions</mat-icon>
     </button>
@@ -10,7 +10,7 @@
     <mat-tab label="Original Text">
       <textarea
         #leftoriginalText
-        [(ngModel)]="lessonContent.originalText"
+        [(ngModel)]="lessonContent!.originalText"
         class="content-textarea"
         (scroll)="onScrollLeft('originalText')"
       ></textarea>
@@ -24,7 +24,7 @@
     <mat-tab label="Detailed Explanation">
       <textarea
         id="leftdetailedExplanation"
-        [(ngModel)]="lessonContent.detailedExplanation"
+        [(ngModel)]="lessonContent!.detailedExplanation"
         class="content-textarea"
         (scroll)="onScrollLeft('detailedExplanation')"
       ></textarea>
@@ -38,7 +38,7 @@
     <mat-tab label="Fill in the Blanks">
       <textarea
         #leftfillInTheBlanks
-        [(ngModel)]="lessonContent.fillInTheBlanks"
+        [(ngModel)]="lessonContent!.fillInTheBlanks"
         class="content-textarea"
         (scroll)="onScrollLeft('fillInTheBlanks')"
       ></textarea>
@@ -53,7 +53,7 @@
     <mat-tab label="Match the Columns">
       <textarea
         #leftmatchTheColumns
-        [(ngModel)]="lessonContent.matchTheColumns"
+        [(ngModel)]="lessonContent!.matchTheColumns"
         class="content-textarea"
         (scroll)="onScrollLeft('matchTheColumns')"
       ></textarea>
@@ -68,7 +68,7 @@
     <mat-tab label="True and False">
       <textarea
         #lefttrueAndFalse
-        [(ngModel)]="lessonContent.trueAndFalse"
+        [(ngModel)]="lessonContent!.trueAndFalse"
         class="content-textarea"
         (scroll)="onScrollLeft('trueAndFalse')"
       ></textarea>
@@ -83,7 +83,7 @@
     <mat-tab label="Quiz">
       <textarea
         #leftquiz
-        [(ngModel)]="lessonContent.quiz"
+        [(ngModel)]="lessonContent!.quiz"
         class="content-textarea"
         (scroll)="onScrollLeft('quiz')"
       ></textarea>
@@ -98,7 +98,7 @@
     <mat-tab label="Short Answers">
       <textarea
         #leftshortAnswers
-        [(ngModel)]="lessonContent.shortAnswers"
+        [(ngModel)]="lessonContent!.shortAnswers"
         class="content-textarea"
         (scroll)="onScrollLeft('shortAnswers')"
       ></textarea>
@@ -113,7 +113,7 @@
     <mat-tab label="Long Answer">
       <textarea
         #leftlongAnswer
-        [(ngModel)]="lessonContent.longAnswer"
+        [(ngModel)]="lessonContent!.longAnswer"
         class="content-textarea"
         (scroll)="onScrollLeft('longAnswer')"
       ></textarea>
