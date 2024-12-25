@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILesson, ILessonJson } from './lesson-model';
+import { ILesson, ILessonJson, IMatchTheColumnData } from './lesson-model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,11 @@ export class LessonUtilityService {
           answer: 0,
         },
       ],
-      matchTheColumns: '',
+      matchTheColumns: [{
+        id: 0,
+        columna: [],
+        columnb: []
+      }],
       trueAndFalse: [
         {
           id: 0,
@@ -176,4 +180,70 @@ export class LessonUtilityService {
         return { id, question, answer };
       });
   }
+
+  parseMathTheColumnData (data: string): IMatchTheColumnData[] {
+    const lines = data.split('\n');
+  
+    let columnA: string[] = [];
+    let columnB: string[] = [];
+    const results: IMatchTheColumnData[] = [];
+  
+    let isTable = false;
+    let isAnswers = false;
+    let index = 1;
+  
+    lines.forEach((line) => {
+      if (line.includes('Column A') && line.includes('Column B')) {
+        isTable = true;
+        return;
+      }
+  
+      if (isTable) {
+        const match = line.match(/^\s*\|\s*[1-4]\.\s+(.+?)\s*\|\s*[A-D]\.\s+(.+?)\s*\|*\s*$/);
+        if (match) {
+          columnA.push(match[1].trim());
+          columnB.push(match[2].trim());
+        }
+      }
+  
+      if (line.startsWith('**Answers:**')) {
+        isAnswers = true;
+        return;
+      }
+  
+      if (isAnswers) {
+       const regex = /\s*(\d)\s*-\s*([A-D])\s*,*\s*/g;
+        const answerMatch = line.match(regex);
+        if (answerMatch) {
+          let matches;
+          const answerList = [];
+          while ((matches = regex.exec(line)) !== null) {
+              const answerNumber = { A: 1, B: 2, C: 3, D: 4 }[matches[2]];
+              answerList.push({ colAIndex: +matches[1], colBIndex: answerNumber });
+          }
+  
+          const reorganizedColumnA: string[] = [];
+          const reorganizedColumnB: string[] = [];
+  
+          answerList.forEach(answer => {
+              reorganizedColumnA.push(columnA[answer.colAIndex - 1]); // Adjust for 1-based index
+              reorganizedColumnB.push(columnB[answer.colBIndex! - 1]); // Adjust for 1-based index
+          });
+  
+          results.push({
+              id: index++,
+              columna: reorganizedColumnA,
+              columnb: reorganizedColumnB
+          });
+  
+          isTable = false;
+          isAnswers = false;
+          columnA = [];
+          columnB = [];
+        }
+      }
+    });
+  
+    return results;
+  };
 }

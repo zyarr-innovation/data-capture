@@ -150,6 +150,13 @@ export class LessonContentComponent {
         }
         break;
       case 'matchTheColumns':
+        if (this.lessonContent?.matchTheColumns) {
+          this.lessonJsonContent.matchTheColumns =
+            this.lessonUtility.parseMathTheColumnData(
+              this.lessonContent.matchTheColumns
+            );
+        }
+        break;
       case 'trueAndFalse':
         if (this.lessonContent?.trueAndFalse) {
           this.lessonJsonContent.trueAndFalse =
@@ -227,4 +234,5 @@ export class LessonContentComponent {
         scrollPercentage) /
       100;
   }
+  
 }

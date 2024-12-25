@@ -10,6 +10,12 @@ export interface ITrueFalse {
   answer: boolean;
 }
 
+export interface IMatchTheColumnData {
+  id: number;
+  columna: string[];
+  columnb: string[];
+}
+
 export interface IQuiz {
   id: number;
   question: string;
@@ -35,7 +41,7 @@ export interface ILessonJson {
   originalText: string;
   detailedExplanation: string;
   fillInTheBlanks: IFillInTheBlank[];
-  matchTheColumns: string;
+  matchTheColumns: IMatchTheColumnData[];
   trueAndFalse: ITrueFalse[];
   quiz: IQuiz[];
   shortAnswers: IShortAnswer[];
