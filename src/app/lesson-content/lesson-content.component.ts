@@ -37,7 +37,7 @@ export class LessonContentComponent {
 
   lessonContent: ILesson | null = null;
   lessonJsonContent: ILessonJson | null = null;
-  
+
   @ViewChild('leftoriginalText')
   leftoriginalText!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('rightoriginalText')
@@ -82,7 +82,7 @@ export class LessonContentComponent {
     private lessonService: LessonService,
     private lessonUtility: LessonUtilityService
   ) {
-    this.lessonContent = this.lessonUtility.getEmptyLesson()
+    this.lessonContent = this.lessonUtility.getEmptyLesson();
   }
 
   ngOnInit(): void {
@@ -144,7 +144,7 @@ export class LessonContentComponent {
       case 'fillInTheBlanks':
         if (this.lessonContent?.fillInTheBlanks) {
           this.lessonJsonContent.fillInTheBlanks =
-            this.lessonUtility.parseQuestionsFillInTheBlank(
+            this.lessonUtility.parseQuestionsFillInTheBlankOrQuiz(
               this.lessonContent.fillInTheBlanks
             );
         }
@@ -167,15 +167,16 @@ export class LessonContentComponent {
         break;
       case 'quiz':
         if (this.lessonContent?.quiz) {
-          this.lessonJsonContent.quiz = this.lessonUtility.parseQuizData(
-            this.lessonContent.quiz
-          );
+          this.lessonJsonContent.quiz =
+            this.lessonUtility.parseQuestionsFillInTheBlankOrQuiz(
+              this.lessonContent.quiz
+            );
         }
         break;
       case 'shortAnswers':
         if (this.lessonContent?.shortAnswers) {
           this.lessonJsonContent.shortAnswers =
-            this.lessonUtility.parseShortQuestionAnswerData(
+            this.lessonUtility.parseShortLongQAData(
               this.lessonContent.shortAnswers
             );
         }
@@ -183,7 +184,7 @@ export class LessonContentComponent {
       case 'longAnswer':
         if (this.lessonContent?.longAnswer) {
           this.lessonJsonContent.longAnswer =
-            this.lessonUtility.parseLongQuestionAnswerData(
+            this.lessonUtility.parseShortLongQAData(
               this.lessonContent.longAnswer
             );
         }
@@ -234,5 +235,4 @@ export class LessonContentComponent {
         scrollPercentage) /
       100;
   }
-  
 }

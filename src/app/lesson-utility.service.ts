@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ILesson, ILessonJson, IMatchTheColumnData } from './lesson-model';
+import {
+  IFillInTheBlank,
+  ILesson,
+  ILessonJson,
+  ILongAnswer,
+  IMatchTheColumnData,
+  IQuiz,
+  IShortAnswer,
+  ITrueFalse,
+} from './lesson-model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,22 +17,22 @@ export class LessonUtilityService {
   constructor() {}
 
   getEmptyLesson(): ILesson {
-     const newLesson: ILesson = {
-          id: 0,
-          name: "",
-          originalText: '',
-          detailedExplanation: '',
-          fillInTheBlanks: '',
-          matchTheColumns: '',
-          trueAndFalse: '',
-          quiz: '',
-          shortAnswers: '',
-          longAnswer: '',
-        };
+    const newLesson: ILesson = {
+      id: 0,
+      name: '',
+      originalText: '',
+      detailedExplanation: '',
+      fillInTheBlanks: '',
+      matchTheColumns: '',
+      trueAndFalse: '',
+      quiz: '',
+      shortAnswers: '',
+      longAnswer: '',
+    };
 
-        return newLesson;
+    return newLesson;
   }
-  
+
   getEmptyLessonJson(): ILessonJson {
     return {
       id: 0,
@@ -38,11 +47,13 @@ export class LessonUtilityService {
           answer: 0,
         },
       ],
-      matchTheColumns: [{
-        id: 0,
-        columna: [],
-        columnb: []
-      }],
+      matchTheColumns: [
+        {
+          id: 0,
+          columna: [],
+          columnb: [],
+        },
+      ],
       trueAndFalse: [
         {
           id: 0,
@@ -75,167 +86,207 @@ export class LessonUtilityService {
     } as ILessonJson;
   }
 
-  parseQuestionsFillInTheBlank(data: string) {
+  parseQuestionsFillInTheBlankOrQuiz(
+    fileContent: string
+  ): IFillInTheBlank[] | IQuiz[] | any[] {
     try {
-      return data
-        .split('\n\n')
+      fileContent = fileContent.replace(/\*\*/g, '');
+
+      const uniqueQuestions: any = [];
+      return fileContent
+        .split('\r\n\r\n')
         .filter((section: any) => section.trim())
         .map((section: any) => {
-          const lines = section.trim().split('\n');
-          const id = parseInt(lines[0].match(/^(\d+)/)?.[1] || '0', 10);
-          const question = lines[0]
-            .replace(/^\d+\.\s*/, '')
-            .replace(/\*\*/g, '')
-            .trim();
-          const options = lines
-            .slice(1, 5)
-            .map((line: any) => line.replace(/^\s*[a-d]\)\s*/, '').trim());
-          const answerLine = lines.find((line: any) =>
-            line.startsWith('**Answer:**')
+          const sectionLines = section.trim().split('\n');
+
+          //------------------------------| id
+          const id = parseInt(
+            sectionLines[0].match(/^(\d+)\./)?.[1] || '0',
+            10
           );
+          if (id == 0) {
+            console.log(
+              'Id is zero parsing problem, neglecting section: ' + section
+            );
+            return {};
+          }
+
+          //------------------------------| question
+          const question = sectionLines[0].replace(/^\d+\.\s*/, '').trim();
+
+          const isDuplicate = uniqueQuestions.includes(question);
+          if (isDuplicate) {
+            console.log('Duplicate question, neglecting section: ' + section);
+            return {};
+          } else {
+            uniqueQuestions.push(question);
+          }
+
+          //------------------------------| options
+          const options = sectionLines
+            .slice(1, 5)
+            .map((line: any) =>
+              line.replace(/^\s*[a-d|A-D][\)|\.]\s*/, '').trim()
+            );
+
+          //------------------------------| answer
+          const answerLine = sectionLines.find((line: any) =>
+            line.includes('Answer:')
+          );
+          console.log(answerLine.match(/\s*Answer:\s*([a-d|A-D])/i));
+
           const answer = answerLine
             ? ['a', 'b', 'c', 'd'].indexOf(
                 answerLine
-                  .match(/\*\*Answer:\*\*\s*([a-d])/i)?.[1]
+                  .match(/\s*Answer:\s*([a-d|A-D])/i)?.[1]
                   .toLowerCase() || ''
               ) + 1
             : 0;
-          return { id, question, options, answer };
-        });
+
+          //------------------------------| return object
+          return { id, question, options, answer } as IFillInTheBlank | IQuiz;
+        })
+        .filter((item) => Object.keys(item).length !== 0);
     } catch (error) {
       console.error('Error reading file:', error);
       return [];
     }
   }
 
-  parseTrueFalseData(data: string) {
-    return data
+  parseTrueFalseData(fileContent: string): ITrueFalse[] | any[] {
+    const uniqueQuestions: any = [];
+    fileContent = fileContent.replace(/\*\*/g, '');
+
+    return fileContent
       .split('\n')
       .filter((line) => line.trim().length > 0)
       .map((line) => {
+        //------------------------------| id
         const id = parseInt(line.match(/^(\d+)\./)?.[1] || '0', 10);
+        if (id == 0) {
+          console.log('Id is zero parsing problem, neglecting line: ' + line);
+          return {};
+        }
+
         const question = line
           .replace(/^\d+\.\s*/, '')
-          .replace(/\*\*/g, '')
           .replace(/\s*\(True\)|\(False\)/i, '')
           .trim();
+
+        const isDuplicate = uniqueQuestions.includes(question);
+        if (isDuplicate) {
+          console.log('Duplicate question, neglecting line: ' + line);
+          return {};
+        } else {
+          uniqueQuestions.push(question);
+        }
+
         const answer = /\(True\)/i.test(line) ? true : false;
         return { id, question, answer };
-      });
+      })
+      .filter((item) => Object.keys(item).length !== 0);
   }
 
-  parseQuizData(data: string) {
-    return data
-      .split('\n')
-      .filter((line: any) => line.trim().length > 0)
-      .reduce((acc, line) => {
-        if (/^\d+\./.test(line)) {
-          const id = parseInt(line.match(/^(\d+)\./)?.[1] || '0', 10);
-          const question = line.replace(/^\d+\.\s*/, '').trim();
-          acc.push({ id, question, options: [], answer: 0 });
-        } else if (/^\s*[A-D]\./.test(line)) {
-          const current = acc[acc.length - 1];
-          if (current) {
-            current.options.push(line.replace(/^\s*[A-D]\.\s*/, '').trim());
-          }
-        } else if (/^\s*Correct Answer:/.test(line)) {
-          const current = acc[acc.length - 1];
-          if (current) {
-            const answerLetter = line
-              .match(/Correct Answer:\s*([A-D])/i)?.[1]
-              .toUpperCase();
-            current.answer = answerLetter
-              ? ['A', 'B', 'C', 'D'].indexOf(answerLetter) + 1
-              : 0;
-          }
+  parseShortLongQAData(
+    fileContent: string
+  ): IShortAnswer[] | ILongAnswer[] | any[] {
+    const uniqueQuestions: any = [];
+    fileContent = fileContent.replace(/\*\*/g, '');
+
+    return fileContent
+      .split('\r\n\r\n')
+      .filter((section) => section.trim().length > 0)
+      .map((section, index) => {
+        const id = parseInt(section.match(/^(\d+)\./)?.[1] || '0', 10);
+        if (id == 0) {
+          console.log(
+            'Id is zero parsing problem, neglecting section: ' + section
+          );
+          return {};
         }
-        return acc;
-      }, [] as { id: number; question: string; options: string[]; answer: number }[]);
-  }
 
-  parseShortQuestionAnswerData(data: string) {
-    return data
-      .split('\n\n')
-      .filter((section) => section.trim().length > 0)
-      .map((section, index) => {
-        const id = index + 1;
-        const questionMatch = section.match(/\s*\*\*Question:\*\*\s*(.+)/i);
-        const answerMatch = section.match(/\s*\*\*Answer:\*\*\s*(.+)/i);
-        const question = questionMatch ? questionMatch[1].trim() : '';
-        const answer = answerMatch ? answerMatch[1].trim() : '';
+        const questionSection = section.split(/^\d+\./);
+        const qaSection = questionSection[1].split('Answer:');
+
+        let question = qaSection[0].trim();
+        if (question.startsWith('Question:')) {
+          question = question.replace('Question:', '').trim();
+        }
+
+        const answer = qaSection[1].trim();
+        const isDuplicate = uniqueQuestions.includes(question);
+        if (isDuplicate) {
+          console.log('Duplicate question, neglecting section: ' + section);
+          return {};
+        } else {
+          uniqueQuestions.push(question);
+        }
+
         return { id, question, answer };
-      });
+      })
+      .filter((item) => Object.keys(item).length !== 0);
   }
 
-  parseLongQuestionAnswerData(data: string) {
-    return data
-      .split('\n\n')
-      .filter((section) => section.trim().length > 0)
-      .map((section, index) => {
-        const id = index + 1;
-        const questionMatch = section.match(/^\d+\.\s*\*\*(.+?)\*\*/);
-        const answerMatch = section.match(/\*\*Answer\*\*:\s*(.+)/i);
-        const question = questionMatch ? questionMatch[1].trim() : '';
-        const answer = answerMatch ? answerMatch[1].trim() : '';
-        return { id, question, answer };
-      });
-  }
-
-  parseMathTheColumnData (data: string): IMatchTheColumnData[] {
+  parseMathTheColumnData(data: string): IMatchTheColumnData[] {
     const lines = data.split('\n');
-  
+
     let columnA: string[] = [];
     let columnB: string[] = [];
     const results: IMatchTheColumnData[] = [];
-  
+
     let isTable = false;
     let isAnswers = false;
     let index = 1;
-  
+
     lines.forEach((line) => {
       if (line.includes('Column A') && line.includes('Column B')) {
         isTable = true;
         return;
       }
-  
+
       if (isTable) {
-        const match = line.match(/^\s*\|\s*[1-4]\.\s+(.+?)\s*\|\s*[A-D]\.\s+(.+?)\s*\|*\s*$/);
+        const match = line.match(
+          /^\s*\|\s*[1-4]\.\s+(.+?)\s*\|\s*[A-D]\.\s+(.+?)\s*\|*\s*$/
+        );
         if (match) {
           columnA.push(match[1].trim());
           columnB.push(match[2].trim());
         }
       }
-  
+
       if (line.startsWith('**Answers:**')) {
         isAnswers = true;
         return;
       }
-  
+
       if (isAnswers) {
-       const regex = /\s*(\d)\s*-\s*([A-D])\s*,*\s*/g;
+        const regex = /\s*(\d)\s*-\s*([A-D])\s*,*\s*/g;
         const answerMatch = line.match(regex);
         if (answerMatch) {
           let matches;
           const answerList = [];
           while ((matches = regex.exec(line)) !== null) {
-              const answerNumber = { A: 1, B: 2, C: 3, D: 4 }[matches[2]];
-              answerList.push({ colAIndex: +matches[1], colBIndex: answerNumber });
+            const answerNumber = { A: 1, B: 2, C: 3, D: 4 }[matches[2]];
+            answerList.push({
+              colAIndex: +matches[1],
+              colBIndex: answerNumber,
+            });
           }
-  
+
           const reorganizedColumnA: string[] = [];
           const reorganizedColumnB: string[] = [];
-  
-          answerList.forEach(answer => {
-              reorganizedColumnA.push(columnA[answer.colAIndex - 1]); // Adjust for 1-based index
-              reorganizedColumnB.push(columnB[answer.colBIndex! - 1]); // Adjust for 1-based index
+
+          answerList.forEach((answer) => {
+            reorganizedColumnA.push(columnA[answer.colAIndex - 1]); // Adjust for 1-based index
+            reorganizedColumnB.push(columnB[answer.colBIndex! - 1]); // Adjust for 1-based index
           });
-  
+
           results.push({
-              id: index++,
-              columna: reorganizedColumnA,
-              columnb: reorganizedColumnB
+            id: index++,
+            columna: reorganizedColumnA,
+            columnb: reorganizedColumnB,
           });
-  
+
           isTable = false;
           isAnswers = false;
           columnA = [];
@@ -243,7 +294,7 @@ export class LessonUtilityService {
         }
       }
     });
-  
+
     return results;
-  };
+  }
 }
