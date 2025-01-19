@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "publish": "ng build --configuration production --output-path docs --base-href /data_capture/",
+    "publish": "ng build --configuration production --output-path docs --base-href /data-capture/",
     "postpublish": "cp ./docs/browser/index.html ./docs/browser/404.html"
   },
   "private": true,
